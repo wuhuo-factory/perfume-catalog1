@@ -1660,7 +1660,8 @@
         localStorage.removeItem('wuhuo_perfume_img_mode_v2');
       } catch (e) {}
 
-      let localFolderMode = '';
+      let detectedLocalPattern = null;
+      let hasBootedGrid = false;
       let currentFilteredList = [];
       let renderedCount = 0;
 
@@ -1718,14 +1719,43 @@
         171: { note: "Perfect Eau de Parfum", volume: "100ML" }
       };
 
-      // Exact uploaded files for #14, #61, #171 (e.g. images/14正.webp)
+      // Exact uploaded files for #14, #61, #171 (images/14正.webp, 61正.webp, 171正.webp)
       const CUSTOM_IMAGE_MAP = {
         14: './images/14%E6%AD%A3.webp',
         61: './images/61%E6%AD%A3.webp',
         171: './images/171%E6%AD%A3.webp'
       };
 
-      // Distribute across 3 independent CDN domains to bypass WeChat's 6-connection-per-domain cap
+      const LOCAL_PATTERN_TIERS = [
+        [
+          { key: 'img_n3_webp', build: (n1, n2, n3) => `./images/${n3}.webp` },
+          { key: 'img_n1_zheng_webp', build: (n1, n2, n3) => `./images/${n1}%E6%AD%A3.webp` },
+          { key: 'img_n2_zheng_webp', build: (n1, n2, n3) => `./images/${n2}%E6%AD%A3.webp` },
+          { key: 'img_n3_zheng_webp', build: (n1, n2, n3) => `./images/${n3}%E6%AD%A3.webp` },
+          { key: 'img_n1_webp', build: (n1, n2, n3) => `./images/${n1}.webp` },
+          { key: 'img_n2_webp', build: (n1, n2, n3) => `./images/${n2}.webp` }
+        ],
+        [
+          { key: 'img_n3_WEBP', build: (n1, n2, n3) => `./images/${n3}.WEBP` },
+          { key: 'img_n1_zheng_WEBP', build: (n1, n2, n3) => `./images/${n1}%E6%AD%A3.WEBP` },
+          { key: 'img_n1_zheng_jpg', build: (n1, n2, n3) => `./images/${n1}%E6%AD%A3.jpg` },
+          { key: 'img_n2_zheng_jpg', build: (n1, n2, n3) => `./images/${n2}%E6%AD%A3.jpg` },
+          { key: 'img_n3_jpg', build: (n1, n2, n3) => `./images/${n3}.jpg` },
+          { key: 'img_n1_jpg', build: (n1, n2, n3) => `./images/${n1}.jpg` },
+          { key: 'img_n2_jpg', build: (n1, n2, n3) => `./images/${n2}.jpg` },
+          { key: 'img_n1_zheng_JPG', build: (n1, n2, n3) => `./images/${n1}%E6%AD%A3.JPG` },
+          { key: 'img_n1_JPG', build: (n1, n2, n3) => `./images/${n1}.JPG` },
+          { key: 'img_n3_png', build: (n1, n2, n3) => `./images/${n3}.png` },
+          { key: 'img_n1_png', build: (n1, n2, n3) => `./images/${n1}.png` },
+          { key: 'img_n3_jpeg', build: (n1, n2, n3) => `./images/${n3}.jpeg` },
+          { key: 'img_n1_jpeg', build: (n1, n2, n3) => `./images/${n1}.jpeg` },
+          { key: 'root_n1_zheng_webp', build: (n1, n2, n3) => `./${n1}%E6%AD%A3.webp` },
+          { key: 'root_n1_zheng_jpg', build: (n1, n2, n3) => `./${n1}%E6%AD%A3.jpg` },
+          { key: 'root_n2_zheng_jpg', build: (n1, n2, n3) => `./${n2}%E6%AD%A3.jpg` }
+        ]
+      ];
+
+      // External CDN fallback (only used if a local image is not found)
       function getShardedCdnUrls(num, highRes = false) {
         const n3 = String(num).padStart(3, '0');
         const width = highRes ? 1000 : 300;
@@ -1747,55 +1777,56 @@
         const n3 = String(num).padStart(3, '0');
 
         const localVariants = [
+          `./images/${n3}.webp`,
           `./images/${n1}%E6%AD%A3.webp`,
-          `./images/${n1}%E6%AD%A3.WEBP`,
           `./images/${n2}%E6%AD%A3.webp`,
           `./images/${n3}%E6%AD%A3.webp`,
           `./images/${n1}.webp`,
-          `./images/${n1}.WEBP`,
-          `./images/${n3}.webp`,
+          `./images/${n2}.webp`,
           `./images/${n3}.WEBP`,
+          `./images/${n1}%E6%AD%A3.WEBP`,
+          `./images/${n1}.WEBP`,
           `./images/${n1}%E6%AD%A3.jpg`,
-          `./images/${n1}%E6%AD%A3.JPG`,
           `./images/${n2}%E6%AD%A3.jpg`,
-          `./images/${n2}%E6%AD%A3.JPG`,
-          `./images/${n1}.jpg`,
-          `./images/${n1}.JPG`,
           `./images/${n3}.jpg`,
-          `./images/${n3}.JPG`,
+          `./images/${n1}.jpg`,
           `./images/${n2}.jpg`,
+          `./images/${n1}%E6%AD%A3.JPG`,
+          `./images/${n1}.JPG`,
+          `./images/${n3}.JPG`,
           `./images/${n2}.JPG`,
+          `./images/${n3}.png`,
           `./images/${n1}.png`,
           `./images/${n1}.PNG`,
+          `./images/${n3}.jpeg`,
           `./images/${n1}.jpeg`,
           `./images/${n1}.JPEG`,
           `./${n1}%E6%AD%A3.webp`,
+          `./${n1}%E6%AD%A3.jpg`,
           `./${n1}.jpg`,
-          `./${n1}.JPG`,
-          `./${n3}.webp`,
-          `./${n3}.WEBP`
+          `./${n3}.webp`
         ];
 
         const shardedCdns = getShardedCdnUrls(num, highRes);
+        const list = [];
 
         if (CUSTOM_IMAGE_MAP[num]) {
-          return Array.from(new Set([
-            CUSTOM_IMAGE_MAP[num],
-            `./${n1}%E6%AD%A3.webp`,
-            ...localVariants,
-            ...shardedCdns
-          ]));
+          list.push(CUSTOM_IMAGE_MAP[num]);
         }
-        if (localFolderMode === 'images') {
-          return Array.from(new Set([...localVariants, ...shardedCdns]));
+
+        if (detectedLocalPattern) {
+          list.push(detectedLocalPattern.build(n1, n2, n3));
+          list.push(...localVariants);
+          list.push(...shardedCdns);
+        } else if (CUSTOM_IMAGE_MAP[num]) {
+          list.push(...localVariants);
+          list.push(...shardedCdns);
+        } else {
+          list.push(...shardedCdns);
+          list.push(...localVariants);
         }
-        if (localFolderMode === 'root') {
-          return Array.from(new Set([`./${n1}%E6%AD%A3.webp`, `./${n1}%E6%AD%A3.jpg`, `./${n2}%E6%AD%A3.jpg`, `./${n1}.jpg`, `./${n1}.JPG`, ...shardedCdns]));
-        }
-        if (localFolderMode === 'pad2') {
-          return Array.from(new Set([`./${n2}%E6%AD%A3.webp`, `./${n2}%E6%AD%A3.jpg`, `./${n1}%E6%AD%A3.jpg`, `./${n2}.jpg`, `./${n2}.JPG`, ...shardedCdns]));
-        }
-        return Array.from(new Set([...shardedCdns, ...localVariants]));
+
+        return Array.from(new Set(list));
       }
 
       function formatStyleCode(num) {
@@ -2241,6 +2272,7 @@
       }
 
       function renderCatalogGrid() {
+        hasBootedGrid = true;
         currentFilteredList = getFilteredCatalog();
         renderedCount = 0;
         stylesCountBadge.textContent = `${currentFilteredList.length} / ${TOTAL_STYLES} styles`;
@@ -2452,22 +2484,74 @@
         }
       }
 
-      function checkLocalRepoInBackground() {
-        const probes = [
-          { mode: 'root', url: './1%E6%AD%A3.jpg' },
-          { mode: 'pad2', url: './01%E6%AD%A3.jpg' },
-          { mode: 'images', url: './images/1%E6%AD%A3.jpg' }
-        ];
-        probes.forEach(p => {
+      function probePattern(pattern) {
+        return new Promise((resolve) => {
+          const url = pattern.build('1', '01', '001');
           const img = new Image();
-          img.onload = () => {
-            if (!localFolderMode && img.naturalWidth > 0) {
-              localFolderMode = p.mode;
-              renderCatalogGrid();
-            }
+          let settled = false;
+          const finish = (ok) => {
+            if (settled) return;
+            settled = true;
+            img.onload = null;
+            img.onerror = null;
+            resolve(ok ? pattern : null);
           };
-          img.src = p.url;
+          img.onload = () => finish(img.naturalWidth > 0);
+          img.onerror = () => finish(false);
+          img.src = url;
         });
+      }
+
+      function firstMatchInTier(tier) {
+        return new Promise((resolve) => {
+          let remaining = tier.length;
+          let resolved = false;
+          if (remaining === 0) {
+            resolve(null);
+            return;
+          }
+          tier.forEach((pattern) => {
+            probePattern(pattern).then((matched) => {
+              if (resolved) return;
+              if (matched) {
+                resolved = true;
+                resolve(matched);
+                return;
+              }
+              remaining -= 1;
+              if (remaining === 0) {
+                resolve(null);
+              }
+            });
+          });
+        });
+      }
+
+      function bootGridIfNeeded(forceRerender) {
+        if (!hasBootedGrid || forceRerender) {
+          renderCatalogGrid();
+          updateSelectionSummaryUI();
+        }
+      }
+
+      async function detectLocalAndRender() {
+        const timeoutTimer = setTimeout(() => {
+          bootGridIfNeeded(false);
+        }, 450);
+
+        let matched = await firstMatchInTier(LOCAL_PATTERN_TIERS[0]);
+        if (!matched) {
+          matched = await firstMatchInTier(LOCAL_PATTERN_TIERS[1]);
+        }
+
+        clearTimeout(timeoutTimer);
+        if (matched) {
+          const changed = !detectedLocalPattern || detectedLocalPattern.key !== matched.key;
+          detectedLocalPattern = matched;
+          bootGridIfNeeded(changed && hasBootedGrid);
+        } else {
+          bootGridIfNeeded(false);
+        }
       }
 
       if ('IntersectionObserver' in window) {
@@ -2799,9 +2883,8 @@
 
       buildCatalog();
       renderBrandPills();
-      renderCatalogGrid();
       updateSelectionSummaryUI();
-      checkLocalRepoInBackground();
+      detectLocalAndRender();
       setTimeout(recoverStalledImages, 2000);
       window.scrollTo(0, 0);
     })();
