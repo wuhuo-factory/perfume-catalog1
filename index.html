@@ -1,0 +1,1791 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>WuHuo Factory — Perfume Catalog (176 Styles)</title>
+
+  <!-- Preload first 4 above-the-fold product images for instant LCP -->
+  <link rel="preload" as="image" href="./images/001.webp" />
+  <link rel="preload" as="image" href="./images/002.webp" />
+  <link rel="preload" as="image" href="./images/003.webp" />
+  <link rel="preload" as="image" href="./images/004.webp" />
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,400;1,600&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <style>
+    :root {
+      --bg: #faf8f5;
+      --surface: #ffffff;
+      --surface-muted: #f3efe9;
+      --text: #1c1917;
+      --text-secondary: #57534e;
+      --text-muted: #8a8178;
+      --gold: #a8844a;
+      --gold-hover: #916f37;
+      --gold-soft: #f5efe4;
+      --gold-border: #e4d5be;
+      --border: #eae4dc;
+      --danger: #993b2b;
+      --radius-lg: 14px;
+      --radius-md: 10px;
+      --shadow-card: 0 2px 10px rgba(28, 25, 23, 0.04);
+      --shadow-hover: 0 12px 28px rgba(28, 25, 23, 0.08);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      padding-bottom: 80px;
+    }
+
+    /* Sticky Header */
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 30;
+      background: rgba(250, 248, 245, 0.92);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .header-container {
+      max-width: 1320px;
+      margin: 0 auto;
+      padding: 13px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+    }
+
+    .brand-home {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      text-decoration: none;
+      color: var(--text);
+      font-size: 16px;
+      letter-spacing: 0.1em;
+      font-weight: 500;
+      white-space: nowrap;
+    }
+
+    .brand-home svg {
+      width: 22px;
+      height: 22px;
+      color: var(--gold);
+      flex-shrink: 0;
+    }
+
+    .brand-home b {
+      font-weight: 700;
+      color: var(--gold);
+    }
+
+    .search-wrapper {
+      position: relative;
+      flex: 1;
+      max-width: 320px;
+    }
+
+    .search-wrapper svg.search-icon {
+      position: absolute;
+      left: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 15px;
+      height: 15px;
+      color: var(--text-muted);
+      pointer-events: none;
+    }
+
+    .search-input {
+      width: 100%;
+      height: 38px;
+      padding: 0 32px 0 36px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      font-size: 13px;
+      color: var(--text);
+      outline: none;
+      transition: border-color 0.15s;
+    }
+
+    .search-input:focus {
+      border-color: var(--gold);
+    }
+
+    .search-clear {
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      font-size: 16px;
+      cursor: pointer;
+      display: none;
+      padding: 2px 4px;
+    }
+
+    .search-clear.visible {
+      display: block;
+    }
+
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .style-count {
+      font-size: 13px;
+      color: var(--text-muted);
+      white-space: nowrap;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .header-cart-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      height: 38px;
+      padding: 0 16px;
+      border-radius: 999px;
+      border: none;
+      background: var(--text);
+      color: #fff;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.15s;
+      white-space: nowrap;
+    }
+
+    .header-cart-btn:hover {
+      background: var(--gold);
+    }
+
+    .header-cart-badge {
+      background: var(--gold);
+      color: #fff;
+      font-size: 11px;
+      font-weight: 700;
+      min-width: 20px;
+      height: 20px;
+      padding: 0 6px;
+      border-radius: 999px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .header-cart-btn:hover .header-cart-badge {
+      background: #fff;
+      color: var(--gold);
+    }
+
+    /* Hero Section */
+    .hero-section {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 42px 20px 26px;
+      text-align: center;
+    }
+
+    .hero-section h1 {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-size: clamp(32px, 5vw, 50px);
+      font-weight: 600;
+      line-height: 1.14;
+      margin-bottom: 12px;
+      color: var(--text);
+    }
+
+    .hero-section h1 em {
+      font-style: italic;
+      font-weight: 500;
+      color: var(--gold);
+    }
+
+    .hero-section p {
+      font-size: 15px;
+      line-height: 1.6;
+      color: var(--text-secondary);
+      margin-bottom: 18px;
+    }
+
+    .warehouse-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--gold-soft);
+      border: 1px solid var(--gold-border);
+      color: #7d5d2b;
+      font-size: 13px;
+      font-weight: 600;
+      padding: 6px 16px;
+      border-radius: 999px;
+    }
+
+    .warehouse-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--gold);
+    }
+
+    /* Brand Filter Navigation */
+    .brand-nav-section {
+      max-width: 1320px;
+      margin: 0 auto 16px;
+      padding: 0 20px;
+    }
+
+    .brand-nav-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 8px;
+      font-size: 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-muted);
+    }
+
+    .reset-filter-link {
+      background: none;
+      border: none;
+      color: var(--gold);
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      display: none;
+    }
+
+    .reset-filter-link.visible {
+      display: inline-block;
+    }
+
+    .brand-scroll {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      overflow-x: auto;
+      padding: 4px 0 8px;
+      scrollbar-width: none;
+    }
+
+    .brand-scroll::-webkit-scrollbar {
+      display: none;
+    }
+
+    .brand-pill {
+      flex-shrink: 0;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 7px 14px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      color: var(--text-secondary);
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: border-color 0.15s, background 0.15s, color 0.15s;
+    }
+
+    .brand-pill:hover {
+      border-color: var(--gold);
+      color: var(--text);
+    }
+
+    .brand-pill.active {
+      background: var(--text);
+      border-color: var(--text);
+      color: #fff;
+    }
+
+    .brand-pill .b-count {
+      font-size: 11px;
+      opacity: 0.7;
+      font-weight: 600;
+    }
+
+    /* Collection Info Bar */
+    .collection-bar {
+      max-width: 1320px;
+      margin: 0 auto 16px;
+      padding: 0 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+
+    .collection-bar strong {
+      color: var(--text);
+      font-weight: 600;
+    }
+
+    /* Product Grid */
+    main {
+      flex: 1;
+    }
+
+    .perfume-grid {
+      max-width: 1320px;
+      margin: 0 auto 48px;
+      padding: 0 20px;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 18px;
+    }
+
+    .perfume-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      box-shadow: var(--shadow-card);
+      transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+      content-visibility: auto;
+      contain-intrinsic-size: 230px 360px;
+    }
+
+    .perfume-card:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-hover);
+    }
+
+    .perfume-card.selected {
+      border-color: var(--gold);
+    }
+
+    .card-img-box {
+      position: relative;
+      aspect-ratio: 1 / 1;
+      background-color: var(--surface-muted);
+      cursor: pointer;
+      overflow: hidden;
+    }
+
+    .card-img-box img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.25s ease;
+    }
+
+    .perfume-card:hover .card-img-box img {
+      transform: scale(1.03);
+    }
+
+    /* Solid high-contrast badges without heavy GPU blur */
+    .tag-code {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      background: rgba(28, 25, 23, 0.86);
+      color: #fff;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 4px 8px;
+      border-radius: 6px;
+      letter-spacing: 0.03em;
+    }
+
+    .tag-ml {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: rgba(255, 255, 255, 0.94);
+      color: var(--text);
+      font-size: 11px;
+      font-weight: 600;
+      padding: 4px 8px;
+      border-radius: 6px;
+      border: 1px solid rgba(0, 0, 0, 0.06);
+    }
+
+    .card-info {
+      padding: 14px;
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+    }
+
+    .card-brand {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--gold);
+      margin-bottom: 4px;
+    }
+
+    .card-name {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text);
+      line-height: 1.35;
+      margin-bottom: 12px;
+      flex: 1;
+      cursor: pointer;
+    }
+
+    .card-name:hover {
+      color: var(--gold);
+    }
+
+    .card-action-slot {
+      height: 36px;
+    }
+
+    .btn-add-card {
+      width: 100%;
+      height: 100%;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background: var(--bg);
+      color: var(--text);
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.15s, color 0.15s, border-color 0.15s;
+    }
+
+    .btn-add-card:hover {
+      background: var(--gold);
+      border-color: var(--gold);
+      color: #fff;
+    }
+
+    .inline-stepper {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 100%;
+      border-radius: 8px;
+      border: 1px solid var(--gold);
+      background: var(--gold-soft);
+      overflow: hidden;
+    }
+
+    .inline-stepper button {
+      width: 36px;
+      height: 100%;
+      border: none;
+      background: transparent;
+      color: var(--gold-hover);
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .inline-stepper button:hover {
+      background: rgba(168, 132, 74, 0.15);
+    }
+
+    .inline-stepper input {
+      width: 100%;
+      flex: 1;
+      height: 100%;
+      border: none;
+      background: transparent;
+      text-align: center;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--text);
+      outline: none;
+    }
+
+    /* Empty Search State */
+    .empty-results {
+      max-width: 460px;
+      margin: 20px auto 60px;
+      padding: 40px 24px;
+      text-align: center;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      display: none;
+    }
+
+    .empty-results.visible {
+      display: block;
+    }
+
+    .empty-hash {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: var(--gold-soft);
+      color: var(--gold);
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-size: 24px;
+      font-weight: 700;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 12px;
+    }
+
+    .empty-results h3 {
+      font-size: 18px;
+      margin-bottom: 6px;
+    }
+
+    .empty-results p {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 16px;
+    }
+
+    /* Floating Bottom Selection Bar */
+    .floating-bar {
+      position: fixed;
+      bottom: 16px;
+      left: 50%;
+      transform: translateX(-50%) translateY(120%);
+      z-index: 35;
+      width: calc(100% - 32px);
+      max-width: 680px;
+      background: var(--text);
+      color: #fff;
+      border-radius: 14px;
+      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      box-shadow: 0 14px 34px rgba(0, 0, 0, 0.22);
+      transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .floating-bar.visible {
+      transform: translateX(-50%) translateY(0);
+    }
+
+    .floating-bar-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .floating-count-circle {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      background: var(--gold);
+      color: #fff;
+      font-weight: 700;
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .floating-bar-text .f-styles {
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    .floating-bar-text .f-items {
+      font-size: 11px;
+      color: #d6d3d1;
+    }
+
+    .floating-bar-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .f-btn-review {
+      padding: 9px 14px;
+      border-radius: 8px;
+      border: 1px solid rgba(255, 255, 255, 0.22);
+      background: transparent;
+      color: #fff;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .f-btn-copy {
+      padding: 9px 16px;
+      border-radius: 8px;
+      border: none;
+      background: var(--gold);
+      color: #fff;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    /* Footer */
+    footer {
+      background: var(--surface);
+      border-top: 1px solid var(--border);
+      padding: 40px 20px;
+      text-align: center;
+    }
+
+    footer h2 {
+      font-size: 16px;
+      letter-spacing: 0.12em;
+      font-weight: 500;
+      margin-bottom: 8px;
+    }
+
+    footer h2 b {
+      color: var(--gold);
+      font-weight: 700;
+    }
+
+    footer p {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    /* Native Dialog Shared Styles */
+    dialog {
+      border: none;
+      padding: 0;
+      background: var(--surface);
+      color: var(--text);
+    }
+
+    dialog::backdrop {
+      background: rgba(28, 25, 23, 0.5);
+    }
+
+    /* Fragrance Details Modal */
+    dialog.details-dialog {
+      margin: auto;
+      max-width: 760px;
+      width: calc(100% - 28px);
+      border-radius: 18px;
+      overflow: hidden;
+      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.22);
+    }
+
+    .details-grid {
+      display: grid;
+      grid-template-columns: 1.05fr 1fr;
+    }
+
+    .details-media {
+      position: relative;
+      background: var(--surface-muted);
+      aspect-ratio: 1 / 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .details-media img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .details-badge {
+      position: absolute;
+      top: 14px;
+      left: 14px;
+      background: rgba(28, 25, 23, 0.85);
+      color: #fff;
+      font-size: 12px;
+      font-weight: 700;
+      padding: 5px 10px;
+      border-radius: 6px;
+    }
+
+    .details-nav {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      border: 1px solid var(--border);
+      background: rgba(255, 255, 255, 0.92);
+      color: var(--text);
+      font-size: 16px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .details-nav.prev { left: 12px; }
+    .details-nav.next { right: 12px; }
+
+    .details-content {
+      padding: 26px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .details-top-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-bottom: 14px;
+    }
+
+    .icon-close-btn {
+      background: none;
+      border: none;
+      font-size: 24px;
+      line-height: 1;
+      color: var(--text-muted);
+      cursor: pointer;
+    }
+
+    .details-house-label {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--gold);
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+
+    .details-title {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-size: 28px;
+      font-weight: 600;
+      line-height: 1.2;
+      margin-bottom: 8px;
+    }
+
+    .details-sub {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 18px;
+    }
+
+    .preset-chips {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 18px;
+      flex-wrap: wrap;
+    }
+
+    .preset-chip {
+      padding: 6px 12px;
+      border-radius: 6px;
+      border: 1px solid var(--border);
+      background: var(--bg);
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .preset-chip:hover {
+      border-color: var(--gold);
+      color: var(--gold);
+    }
+
+    .details-qty-box {
+      border-top: 1px solid var(--border);
+      padding-top: 16px;
+    }
+
+    .details-qty-label {
+      display: flex;
+      justify-content: space-between;
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+    }
+
+    .details-controls-row {
+      display: flex;
+      gap: 10px;
+      height: 42px;
+    }
+
+    .details-done-btn {
+      flex: 1;
+      border-radius: 8px;
+      border: none;
+      background: var(--gold);
+      color: #fff;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .details-done-btn:hover {
+      background: var(--gold-hover);
+    }
+
+    /* My Selection Slide-Over Dialog */
+    dialog.selection-dialog {
+      margin: 0 0 0 auto;
+      max-width: 420px;
+      width: 100%;
+      height: 100vh;
+      max-height: 100vh;
+      box-shadow: -12px 0 36px rgba(0, 0, 0, 0.15);
+    }
+
+    .drawer-wrapper {
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .drawer-header {
+      padding: 22px 24px 16px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+    }
+
+    .drawer-kicker {
+      display: block;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      color: var(--gold);
+      margin-bottom: 4px;
+    }
+
+    .drawer-header h2 {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-size: 30px;
+      font-weight: 600;
+    }
+
+    .drawer-header h2 span {
+      color: var(--gold);
+      font-weight: 400;
+    }
+
+    .drawer-subbar {
+      padding: 10px 24px 0;
+      display: flex;
+      justify-content: flex-end;
+    }
+
+    .clear-all-btn {
+      background: none;
+      border: none;
+      color: var(--danger);
+      font-size: 13px;
+      text-decoration: underline;
+      cursor: pointer;
+    }
+
+    .drawer-body {
+      flex: 1;
+      overflow-y: auto;
+      padding: 10px 24px 20px;
+    }
+
+    .drawer-empty {
+      text-align: center;
+      padding: 64px 20px;
+      color: var(--text-muted);
+    }
+
+    .drawer-empty h3 {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-size: 24px;
+      color: var(--text);
+      margin-bottom: 6px;
+    }
+
+    .cart-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      padding: 14px 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .cart-row img {
+      width: 64px;
+      height: 64px;
+      border-radius: 8px;
+      object-fit: cover;
+      background: var(--surface-muted);
+      flex-shrink: 0;
+    }
+
+    .cart-row-info {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .cart-row-meta {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--gold);
+      margin-bottom: 2px;
+    }
+
+    .cart-row-title {
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 8px;
+      line-height: 1.3;
+    }
+
+    .qty-box {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .qty-btn {
+      width: 28px;
+      height: 28px;
+      border-radius: 6px;
+      border: 1px solid var(--border);
+      background: #fff;
+      cursor: pointer;
+      font-size: 15px;
+    }
+
+    .qty-input {
+      width: 50px;
+      height: 28px;
+      border-radius: 6px;
+      border: 1px solid var(--border);
+      text-align: center;
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    .cart-remove {
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      font-size: 18px;
+      cursor: pointer;
+      padding: 2px 4px;
+    }
+
+    .drawer-footer {
+      padding: 16px 24px 22px;
+      border-top: 1px solid var(--border);
+      background: var(--surface);
+    }
+
+    .drawer-summary {
+      display: flex;
+      justify-content: space-between;
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 12px;
+    }
+
+    .drawer-summary strong {
+      color: var(--text);
+    }
+
+    .btn-copy-main {
+      width: 100%;
+      padding: 14px;
+      border-radius: 10px;
+      border: none;
+      background: var(--gold);
+      color: #fff;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .btn-copy-main:hover {
+      background: var(--gold-hover);
+    }
+
+    .drawer-note {
+      text-align: center;
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 10px;
+    }
+
+    .manual-copy-box {
+      margin-top: 10px;
+      display: none;
+    }
+
+    .manual-copy-box.visible {
+      display: block;
+    }
+
+    .manual-copy-box span {
+      display: block;
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-bottom: 4px;
+    }
+
+    .manual-copy-box textarea {
+      width: 100%;
+      height: 68px;
+      padding: 8px;
+      border-radius: 6px;
+      border: 1px solid var(--border);
+      font-size: 12px;
+      font-family: monospace;
+      resize: none;
+    }
+
+    /* Status Toast */
+    .toast-status {
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%) translateY(20px);
+      background: var(--text);
+      color: #fff;
+      padding: 10px 20px;
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 600;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s, transform 0.2s;
+      z-index: 90;
+    }
+
+    .toast-status.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    @media (max-width: 680px) {
+      .header-container { padding: 10px 12px; gap: 8px; }
+      .style-count { display: none; }
+      .perfume-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+        padding: 0 12px;
+      }
+      .brand-nav-section, .collection-bar { padding: 0 12px; }
+      .details-grid { grid-template-columns: 1fr; }
+      .details-content { padding: 18px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header>
+    <div class="header-container">
+      <a href="#" class="brand-home" aria-label="WuHuo Factory home">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+          <path d="M9 3h6v3H9zM10 6h4l2 3v10a2 2 0 0 1-2 2h-4a2 2 0 0 1-2-2V9l2-3z"/>
+          <path d="M12 3V1M8 13h8"/>
+        </svg>
+        <span>WuHuo <b>Factory</b></span>
+      </a>
+
+      <div class="search-wrapper">
+        <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="11" cy="11" r="8"></circle>
+          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+        </svg>
+        <input type="search" id="searchInput" class="search-input" placeholder="Search #01–#176 or brand..." />
+        <button type="button" id="searchClearBtn" class="search-clear" aria-label="Clear search">&times;</button>
+      </div>
+
+      <div class="header-right">
+        <span class="style-count" id="styleCountLabel" aria-live="polite">176 / 176 styles</span>
+        <button type="button" class="header-cart-btn" id="openSelectionBtn">
+          <span>My Selection</span>
+          <span class="header-cart-badge" id="headerBadge">0</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main>
+    <section class="hero-section">
+      <h1>Welcome to WUHUO <em>top perfume Factory</em></h1>
+      <p>
+        Explore the collection, choose your favorites and quantities,<br>
+        then copy your selection and send it to us for a quote.
+      </p>
+      <div class="warehouse-pill">
+        <span class="warehouse-dot"></span>
+        <span>USA warehouse, 2-5 fast delivery!</span>
+      </div>
+    </section>
+
+    <!-- Brand Filter -->
+    <nav class="brand-nav-section" aria-label="Filter by brand">
+      <div class="brand-nav-header">
+        <span>Filter by Brand</span>
+        <button type="button" class="reset-filter-link" id="resetBrandBtn">Reset filter</button>
+      </div>
+      <div class="brand-scroll" id="brandScroll"></div>
+    </nav>
+
+    <!-- Collection Status Bar -->
+    <div class="collection-bar">
+      <strong id="collectionTitle">The complete collection</strong>
+      <span>Click a fragrance to take a closer look</span>
+    </div>
+
+    <!-- Perfumes Grid -->
+    <section class="perfume-grid" id="perfumeGrid" aria-label="Perfumes"></section>
+
+    <!-- Empty State -->
+    <div class="empty-results" id="emptyResults">
+      <div class="empty-hash">#</div>
+      <h3>No matching fragrances found</h3>
+      <p>Try searching another style number (#01–#176) or selecting a different brand.</p>
+      <button type="button" class="btn-add-card" id="emptyResetBtn" style="max-width:180px;height:38px;">Show All 176 Styles</button>
+    </div>
+  </main>
+
+  <!-- Floating Bottom Selection Bar -->
+  <div class="floating-bar" id="floatingBar">
+    <div class="floating-bar-left">
+      <div class="floating-count-circle" id="floatStyleBadge">0</div>
+      <div class="floating-bar-text">
+        <div class="f-styles" id="floatStylesText">0 styles selected</div>
+        <div class="f-items" id="floatItemsText">0 items total · Ready for quote</div>
+      </div>
+    </div>
+    <div class="floating-bar-actions">
+      <button type="button" class="f-btn-review" id="floatReviewBtn">View List</button>
+      <button type="button" class="f-btn-copy" id="floatCopyBtn">Copy List ↗</button>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <h2>Perfume <b>Catalog</b></h2>
+    <p>Your fragrance selection, made simple.</p>
+    <p>Choose your styles · Set quantities · Copy and send for a quote</p>
+  </footer>
+
+  <!-- Fragrance Details Dialog -->
+  <dialog class="details-dialog" id="detailsDialog" aria-label="Fragrance details">
+    <div class="details-grid">
+      <div class="details-media">
+        <span class="details-badge" id="detailCodeBadge">#01</span>
+        <button type="button" class="details-nav prev" id="detailPrevBtn" aria-label="Previous">&#8592;</button>
+        <img id="detailImg" src="" alt="Perfume bottle details" />
+        <button type="button" class="details-nav next" id="detailNextBtn" aria-label="Next">&#8594;</button>
+      </div>
+      <div class="details-content">
+        <div>
+          <div class="details-top-bar">
+            <span id="detailPositionText">Style #01 of 176</span>
+            <button type="button" class="icon-close-btn" id="closeDetailsBtn" aria-label="Close">&times;</button>
+          </div>
+          <div class="details-house-label" id="detailBrandHouse">Dior</div>
+          <h3 class="details-title" id="detailTitle">Dior #01</h3>
+          <p class="details-sub" id="detailSub">Catalog Style #01 · 100ML · USA Warehouse Fast Delivery</p>
+
+          <div class="preset-chips">
+            <button type="button" class="preset-chip" data-add="1">+1 pc</button>
+            <button type="button" class="preset-chip" data-add="5">+5 pcs</button>
+            <button type="button" class="preset-chip" data-add="10">+10 pcs</button>
+            <button type="button" class="preset-chip" data-add="20">+20 pcs</button>
+          </div>
+        </div>
+
+        <div class="details-qty-box">
+          <div class="details-qty-label">
+            <span>Selected Quantity</span>
+            <strong id="detailVolumeLabel">100ML</strong>
+          </div>
+          <div class="details-controls-row">
+            <div class="inline-stepper" style="width: 140px;">
+              <button type="button" id="detailMinusBtn">−</button>
+              <input type="number" id="detailQtyInput" min="0" value="0" />
+              <button type="button" id="detailPlusBtn">+</button>
+            </div>
+            <button type="button" class="details-done-btn" id="detailApplyBtn">Done</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </dialog>
+
+  <!-- My Selection Dialog -->
+  <dialog class="selection-dialog" id="selectionDialog" aria-label="My Selection">
+    <div class="drawer-wrapper">
+      <div class="drawer-header">
+        <div>
+          <span class="drawer-kicker">YOUR QUOTE REQUEST</span>
+          <h2>My Selection <span id="drawerCountLabel">(0)</span></h2>
+        </div>
+        <button type="button" class="icon-close-btn" id="closeSelectionBtn" aria-label="Close">&times;</button>
+      </div>
+
+      <div class="drawer-subbar" id="drawerClearWrap" style="display: none;">
+        <button type="button" class="clear-all-btn" id="clearAllBtn">Clear all</button>
+      </div>
+
+      <div class="drawer-body" id="drawerBody"></div>
+
+      <div class="drawer-footer">
+        <div class="drawer-summary">
+          <span id="drawerStylesSummary">0 styles selected</span>
+          <strong id="drawerItemsSummary">0 items total</strong>
+        </div>
+        <button type="button" class="btn-copy-main" id="drawerCopyBtn">
+          <span>Copy Selection List</span>
+          <span>&#8599;</span>
+        </button>
+        <p class="drawer-note">Copy your list and send it to us for a quote.</p>
+
+        <div class="manual-copy-box" id="manualCopyBox">
+          <span>Long-press below to copy your list:</span>
+          <textarea id="manualCopyTextarea" readonly></textarea>
+        </div>
+      </div>
+    </div>
+  </dialog>
+
+  <!-- Toast Notification -->
+  <div class="toast-status" id="toastStatus" aria-live="polite" role="status">
+    Selection copied to clipboard
+  </div>
+
+  <script>
+    // Prevent scroll jump on page reload
+    if ('scrollRestoration' in history) {
+      history.scrollRestoration = 'manual';
+    }
+
+    // Exact 176 brands sequence matching styles #01 to #176
+    const BRANDS_176 = [
+      "Dior","Tom Ford","Chanel","Creed","Maison Francis Kurkdjian","Valentino","Yves Saint Laurent","Yves Saint Laurent","Versace","Carolina Herrera",
+      "Yves Saint Laurent","Valentino","Louis Vuitton","Paco Rabanne","Xerjoff","Jean Paul Gaultier","Dior","Louis Vuitton","Armani","Parfums de Marly",
+      "Carolina Herrera","Dior","Chanel","Gucci","Maison Francis Kurkdjian","Valentino","Armani","Initio","Creed","Yves Saint Laurent",
+      "Armani","Kilian","Parfums de Marly","Parfums de Marly","Prada","Creed","Louis Vuitton","Louis Vuitton","Tom Ford","Tom Ford",
+      "Carolina Herrera","Carolina Herrera","Valentino","Initio","Versace","Maison Francis Kurkdjian","Yves Saint Laurent","Versace","Gucci","Chanel",
+      "Creed","Dior","Jean Paul Gaultier","Jean Paul Gaultier","Jean Paul Gaultier","Jean Paul Gaultier","Valentino","Valentino","Valentino","Valentino",
+      "Paco Rabanne","Armaf","Armaf","Armaf","Lancome","Chanel","Armani","Armani","Byredo","Tom Ford",
+      "Tom Ford","Tom Ford","Tom Ford","Tom Ford","Maison Francis Kurkdjian","Maison Francis Kurkdjian","Creed","Carolina Herrera","Gucci","Gucci",
+      "Burberry","Burberry","Dior","Dior","Azzaro","Viktor & Rolf","Dolce & Gabbana","Prada","Prada","Valentino",
+      "Valentino","Valentino","Valentino","Valentino","Valentino","Chanel","Chanel","Chanel","Chanel","Chanel",
+      "Azzaro","Yves Saint Laurent","Yves Saint Laurent","Yves Saint Laurent","Yves Saint Laurent","Louis Vuitton","Paco Rabanne","Paco Rabanne","Paco Rabanne","Jean Paul Gaultier",
+      "Jean Paul Gaultier","Jean Paul Gaultier","Burberry","Dior","Le Labo","Burberry","Burberry","Dolce & Gabbana","Dolce & Gabbana","Dolce & Gabbana",
+      "Kayali","Kayali","Versace","Versace","Lancome","Ralph Lauren","Ralph Lauren","Hermes","Hugo Boss","Paco Rabanne",
+      "Creed","Victoria's Secret","Viktor & Rolf","Givenchy","Gucci","Jo Malone","Dior","Carolina Herrera","Initio","Bond No. 9",
+      "Initio","Chanel","Chanel","Armani","Jean Paul Gaultier","Initio","Tom Ford","Tom Ford","Gucci","Creed",
+      "Dior","Louis Vuitton","Creed","Maison Francis Kurkdjian","Chanel","Maison Francis Kurkdjian","Jimmy Choo","Jimmy Choo","Kayali","Kayali",
+      "Kayali","Kayali","Kayali","Kayali","Valentino","Valentino","Bond No. 9","Bond No. 9","Bond No. 9","Marc Jacobs",
+      "Marc Jacobs","Yves Saint Laurent","Louis Vuitton","Carolina Herrera","Gucci","Gucci"
+    ];
+
+    // Build catalog items #01 - #176 using strictly local relative paths
+    const CATALOG = BRANDS_176.map((brand, index) => {
+      const id = index + 1;
+      const pad2 = String(id).padStart(2, '0');
+      const pad3 = String(id).padStart(3, '0');
+      return {
+        id,
+        code: `#${pad2}`,
+        brand,
+        title: `${brand} #${pad2}`,
+        ml: "100ML",
+        imgPrimary: `./images/${pad3}.webp`,
+        imgFallbacks: [
+          `./images/${pad2}.webp`,
+          `./images/${id}.webp`,
+          `./images/${pad3}.jpg`,
+          `./images/${pad2}.jpg`,
+          `./images/${pad3}.png`
+        ]
+      };
+    });
+
+    // Application State
+    let selectedBrand = "All";
+    let searchQuery = "";
+    let activeDetailId = 1;
+    let selection = {};
+
+    try {
+      const saved = localStorage.getItem("wuhuo_catalog_selection");
+      if (saved) selection = JSON.parse(saved);
+    } catch (err) {
+      selection = {};
+    }
+
+    // DOM Elements
+    const brandScroll = document.getElementById("brandScroll");
+    const perfumeGrid = document.getElementById("perfumeGrid");
+    const styleCountLabel = document.getElementById("styleCountLabel");
+    const collectionTitle = document.getElementById("collectionTitle");
+    const searchInput = document.getElementById("searchInput");
+    const searchClearBtn = document.getElementById("searchClearBtn");
+    const resetBrandBtn = document.getElementById("resetBrandBtn");
+    const emptyResults = document.getElementById("emptyResults");
+    const detailsDialog = document.getElementById("detailsDialog");
+    const selectionDialog = document.getElementById("selectionDialog");
+    const toastStatus = document.getElementById("toastStatus");
+
+    // Local image fallback handler (never hangs on external proxies)
+    window.onCatalogImgError = function(imgEl, id) {
+      const item = CATALOG[id - 1];
+      if (!item) return;
+      const step = parseInt(imgEl.dataset.fbStep || "0", 10);
+      if (step < item.imgFallbacks.length) {
+        imgEl.dataset.fbStep = String(step + 1);
+        imgEl.src = item.imgFallbacks[step];
+      } else {
+        imgEl.onerror = null;
+        const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="400" height="400" viewBox="0 0 400 400">
+          <rect width="100%" height="100%" fill="#f3efe9"/>
+          <rect x="150" y="95" width="100" height="32" rx="6" fill="#d6cbbd"/>
+          <rect x="125" y="135" width="150" height="175" rx="18" fill="#e6dfd5" stroke="#a8844a" stroke-width="3"/>
+          <text x="50%" y="215" text-anchor="middle" font-family="Georgia, serif" font-size="28" font-weight="bold" fill="#a8844a">${item.code}</text>
+          <text x="50%" y="245" text-anchor="middle" font-family="sans-serif" font-size="13" fill="#57534e">${item.brand}</text>
+        </svg>`;
+        imgEl.src = "data:image/svg+xml;utf8," + encodeURIComponent(svg);
+      }
+    };
+
+    // Build action button HTML for a single card
+    function getCardActionHTML(id) {
+      const qty = selection[id] || 0;
+      if (qty > 0) {
+        return `
+          <div class="inline-stepper">
+            <button type="button" onclick="adjustQty(${id}, -1)" aria-label="Decrease quantity">−</button>
+            <input type="number" min="1" value="${qty}" onchange="setDirectQty(${id}, this.value)" aria-label="Quantity" />
+            <button type="button" onclick="adjustQty(${id}, 1)" aria-label="Increase quantity">+</button>
+          </div>
+        `;
+      }
+      return `<button type="button" class="btn-add-card" onclick="adjustQty(${id}, 1)">Add to Selection</button>`;
+    }
+
+    // O(1) targeted card update: updates only the single changed card without re-rendering the grid
+    function updateSingleCardDOM(id) {
+      const card = perfumeGrid.querySelector(`.perfume-card[data-id="${id}"]`);
+      if (!card) return;
+      const qty = selection[id] || 0;
+      card.classList.toggle("selected", qty > 0);
+      const slot = card.querySelector(".card-action-slot");
+      if (slot) slot.innerHTML = getCardActionHTML(id);
+    }
+
+    // Filter helper
+    function getFilteredList() {
+      return CATALOG.filter(item => {
+        const brandMatch = selectedBrand === "All" || item.brand === selectedBrand;
+        if (!brandMatch) return false;
+        if (!searchQuery) return true;
+        const q = searchQuery.toLowerCase();
+        return item.code.toLowerCase().includes(q) ||
+               item.brand.toLowerCase().includes(q) ||
+               item.title.toLowerCase().includes(q);
+      });
+    }
+
+    // Render Brand Filter Bar
+    function renderBrands() {
+      const counts = {};
+      CATALOG.forEach(p => { counts[p.brand] = (counts[p.brand] || 0) + 1; });
+      const brands = ["All", ...Object.keys(counts)];
+
+      brandScroll.innerHTML = brands.map(b => {
+        const count = b === "All" ? CATALOG.length : counts[b];
+        const activeClass = b === selectedBrand ? "active" : "";
+        const label = b === "All" ? "All Brands" : b;
+        return `
+          <button type="button" class="brand-pill ${activeClass}" data-brand="${b.replace(/"/g, '&quot;')}">
+            <span>${label}</span>
+            <span class="b-count">${count}</span>
+          </button>
+        `;
+      }).join("");
+
+      resetBrandBtn.classList.toggle("visible", selectedBrand !== "All");
+    }
+
+    // Render Product Grid
+    function renderGrid() {
+      const list = getFilteredList();
+      styleCountLabel.textContent = `${list.length} / ${CATALOG.length} styles`;
+      collectionTitle.textContent = selectedBrand === "All"
+        ? "The complete collection"
+        : `${selectedBrand} (${list.length} styles)`;
+
+      if (list.length === 0) {
+        perfumeGrid.innerHTML = "";
+        emptyResults.classList.add("visible");
+        return;
+      }
+
+      emptyResults.classList.remove("visible");
+
+      perfumeGrid.innerHTML = list.map((item, idx) => {
+        const qty = selection[item.id] || 0;
+        const loadingAttr = idx < 8
+          ? `fetchpriority="high" decoding="async"`
+          : `loading="lazy" decoding="async"`;
+
+        return `
+          <article class="perfume-card ${qty > 0 ? 'selected' : ''}" data-id="${item.id}">
+            <div class="card-img-box" onclick="openDetails(${item.id})">
+              <img
+                src="${item.imgPrimary}"
+                width="300"
+                height="300"
+                ${loadingAttr}
+                alt="${item.title}"
+                onerror="onCatalogImgError(this, ${item.id})"
+              />
+              <span class="tag-code">${item.code}</span>
+              <span class="tag-ml">${item.ml}</span>
+            </div>
+            <div class="card-info">
+              <div class="card-brand">${item.brand}</div>
+              <h3 class="card-name" onclick="openDetails(${item.id})">${item.title}</h3>
+              <div class="card-action-slot">
+                ${getCardActionHTML(item.id)}
+              </div>
+            </div>
+          </article>
+        `;
+      }).join("");
+    }
+
+    // Save state and update counters
+    function persistAndSync(changedId) {
+      try {
+        localStorage.setItem("wuhuo_catalog_selection", JSON.stringify(selection));
+      } catch (e) {}
+
+      if (changedId) {
+        updateSingleCardDOM(changedId);
+      } else {
+        renderGrid();
+      }
+      updateSelectionSummaries();
+    }
+
+    window.adjustQty = function(id, delta) {
+      const next = (selection[id] || 0) + delta;
+      if (next <= 0) delete selection[id];
+      else selection[id] = next;
+      persistAndSync(id);
+    };
+
+    window.setDirectQty = function(id, rawVal) {
+      const val = parseInt(rawVal, 10);
+      if (!val || val <= 0) delete selection[id];
+      else selection[id] = val;
+      persistAndSync(id);
+    };
+
+    window.removeSelectedStyle = function(id) {
+      delete selection[id];
+      persistAndSync(id);
+    };
+
+    // Format text list for clipboard export
+    function buildQuoteText() {
+      const ids = Object.keys(selection).map(Number).filter(id => selection[id] > 0);
+      if (ids.length === 0) return "";
+      const totalPcs = ids.reduce((acc, id) => acc + selection[id], 0);
+      const lines = ids.map(id => {
+        const item = CATALOG[id - 1];
+        return `${item.code} - ${item.brand} (${item.ml}) x ${selection[id]} pcs`;
+      });
+      return `WuHuo Factory Quote Request (${ids.length} styles, ${totalPcs} pcs total):\n` + lines.join("\n");
+    }
+
+    // Update Header Badge, Floating Bar, and Selection Drawer
+    function updateSelectionSummaries() {
+      const ids = Object.keys(selection).map(Number).filter(id => selection[id] > 0);
+      const stylesCount = ids.length;
+      const itemsCount = ids.reduce((sum, id) => sum + selection[id], 0);
+
+      document.getElementById("headerBadge").textContent = stylesCount;
+      document.getElementById("drawerCountLabel").textContent = `(${stylesCount})`;
+
+      const stylesLabel = `${stylesCount} ${stylesCount === 1 ? 'style' : 'styles'} selected`;
+      const itemsLabel = `${itemsCount} ${itemsCount === 1 ? 'item' : 'items'} total`;
+
+      document.getElementById("drawerStylesSummary").textContent = stylesLabel;
+      document.getElementById("drawerItemsSummary").textContent = itemsLabel;
+
+      // Floating bottom bar
+      const floatingBar = document.getElementById("floatingBar");
+      floatingBar.classList.toggle("visible", stylesCount > 0);
+      document.getElementById("floatStyleBadge").textContent = stylesCount;
+      document.getElementById("floatStylesText").textContent = stylesLabel;
+      document.getElementById("floatItemsText").textContent = `${itemsLabel} · Ready for quote`;
+
+      // Drawer Clear All visibility
+      document.getElementById("drawerClearWrap").style.display = stylesCount > 0 ? "flex" : "none";
+
+      // Drawer list items
+      const drawerBody = document.getElementById("drawerBody");
+      const manualCopyBox = document.getElementById("manualCopyBox");
+      const manualCopyTextarea = document.getElementById("manualCopyTextarea");
+
+      if (stylesCount === 0) {
+        manualCopyBox.classList.remove("visible");
+        drawerBody.innerHTML = `
+          <div class="drawer-empty">
+            <h3>Your list is waiting</h3>
+            <p>Add a fragrance to start your selection.</p>
+          </div>
+        `;
+        return;
+      }
+
+      manualCopyTextarea.value = buildQuoteText();
+
+      drawerBody.innerHTML = ids.map(id => {
+        const item = CATALOG[id - 1];
+        if (!item) return "";
+        return `
+          <div class="cart-row">
+            <img src="${item.imgPrimary}" alt="${item.title}" loading="lazy" onerror="onCatalogImgError(this, ${item.id})" />
+            <div class="cart-row-info">
+              <div class="cart-row-meta">${item.code} · ${item.ml}</div>
+              <div class="cart-row-title">${item.title}</div>
+              <div class="qty-box">
+                <button type="button" class="qty-btn" onclick="adjustQty(${item.id}, -1)">−</button>
+                <input type="number" class="qty-input" min="1" value="${selection[item.id]}" onchange="setDirectQty(${item.id}, this.value)" />
+                <button type="button" class="qty-btn" onclick="adjustQty(${item.id}, 1)">+</button>
+              </div>
+            </div>
+            <button type="button" class="cart-remove" onclick="removeSelectedStyle(${item.id})" aria-label="Remove">&times;</button>
+          </div>
+        `;
+      }).join("");
+    }
+
+    // Fragrance Details Modal Logic
+    window.openDetails = function(id) {
+      const item = CATALOG[id - 1];
+      if (!item) return;
+      activeDetailId = id;
+
+      const img = document.getElementById("detailImg");
+      img.dataset.fbStep = "0";
+      img.src = item.imgPrimary;
+      img.onerror = () => onCatalogImgError(img, item.id);
+
+      document.getElementById("detailCodeBadge").textContent = item.code;
+      document.getElementById("detailPositionText").textContent = `Style ${item.code} of 176`;
+      document.getElementById("detailBrandHouse").textContent = item.brand;
+      document.getElementById("detailTitle").textContent = item.title;
+      document.getElementById("detailSub").textContent = `Catalog Style ${item.code} · ${item.ml} · USA Warehouse Fast Delivery`;
+      document.getElementById("detailVolumeLabel").textContent = item.ml;
+      document.getElementById("detailQtyInput").value = selection[id] || 0;
+
+      if (!detailsDialog.open) detailsDialog.showModal();
+    };
+
+    function stepDetailsItem(dir) {
+      const list = getFilteredList();
+      if (list.length === 0) return;
+      const idx = list.findIndex(p => p.id === activeDetailId);
+      const nextIdx = idx === -1 ? 0 : (idx + dir + list.length) % list.length;
+      openDetails(list[nextIdx].id);
+    }
+
+    document.getElementById("detailPrevBtn").onclick = () => stepDetailsItem(-1);
+    document.getElementById("detailNextBtn").onclick = () => stepDetailsItem(1);
+    document.getElementById("closeDetailsBtn").onclick = () => detailsDialog.close();
+    detailsDialog.addEventListener("click", e => {
+      if (e.target === detailsDialog) detailsDialog.close();
+    });
+
+    document.getElementById("detailMinusBtn").onclick = () => {
+      const input = document.getElementById("detailQtyInput");
+      const next = Math.max(0, (parseInt(input.value, 10) || 0) - 1);
+      input.value = next;
+      setDirectQty(activeDetailId, next);
+    };
+
+    document.getElementById("detailPlusBtn").onclick = () => {
+      const input = document.getElementById("detailQtyInput");
+      const next = (parseInt(input.value, 10) || 0) + 1;
+      input.value = next;
+      setDirectQty(activeDetailId, next);
+    };
+
+    document.getElementById("detailQtyInput").onchange = e => {
+      setDirectQty(activeDetailId, e.target.value);
+    };
+
+    document.querySelectorAll(".preset-chip").forEach(btn => {
+      btn.addEventListener("click", () => {
+        const addAmount = parseInt(btn.dataset.add, 10) || 1;
+        const input = document.getElementById("detailQtyInput");
+        const next = (parseInt(input.value, 10) || 0) + addAmount;
+        input.value = next;
+        setDirectQty(activeDetailId, next);
+      });
+    });
+
+    document.getElementById("detailApplyBtn").onclick = () => {
+      const input = document.getElementById("detailQtyInput");
+      const current = parseInt(input.value, 10) || 0;
+      if (current === 0) {
+        setDirectQty(activeDetailId, 1);
+      }
+      detailsDialog.close();
+    };
+
+    // Copy to Clipboard Handler
+    function copySelectionToClipboard() {
+      const text = buildQuoteText();
+      if (!text) {
+        triggerToast("Please select at least 1 fragrance first");
+        return;
+      }
+
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(() => {
+          triggerToast("Selection copied to clipboard ✓");
+        }).catch(() => {
+          fallbackCopy(text);
+        });
+      } else {
+        fallbackCopy(text);
+      }
+    }
+
+    function fallbackCopy(text) {
+      const box = document.getElementById("manualCopyBox");
+      const area = document.getElementById("manualCopyTextarea");
+      box.classList.add("visible");
+      area.value = text;
+      area.select();
+      try {
+        document.execCommand("copy");
+        triggerToast("Selection copied to clipboard ✓");
+      } catch (err) {
+        triggerToast("Please copy from the text box below");
+      }
+    }
+
+    function triggerToast(message) {
+      toastStatus.textContent = message;
+      toastStatus.classList.add("show");
+      clearTimeout(window.__toastTimer);
+      window.__toastTimer = setTimeout(() => {
+        toastStatus.classList.remove("show");
+      }, 2200);
+    }
+
+    // Event Listeners
+    brandScroll.addEventListener("click", e => {
+      const pill = e.target.closest(".brand-pill");
+      if (!pill) return;
+      selectedBrand = pill.dataset.brand;
+      renderBrands();
+      renderGrid();
+    });
+
+    resetBrandBtn.onclick = () => {
+      selectedBrand = "All";
+      renderBrands();
+      renderGrid();
+    };
+
+    document.getElementById("emptyResetBtn").onclick = () => {
+      selectedBrand = "All";
+      searchQuery = "";
+      searchInput.value = "";
+      searchClearBtn.classList.remove("visible");
+      renderBrands();
+      renderGrid();
+    };
+
+    searchInput.addEventListener("input", e => {
+      searchQuery = e.target.value.trim();
+      searchClearBtn.classList.toggle("visible", searchQuery.length > 0);
+      renderGrid();
+    });
+
+    searchClearBtn.onclick = () => {
+      searchQuery = "";
+      searchInput.value = "";
+      searchClearBtn.classList.remove("visible");
+      renderGrid();
+    };
+
+    document.getElementById("openSelectionBtn").onclick = () => selectionDialog.showModal();
+    document.getElementById("floatReviewBtn").onclick = () => selectionDialog.showModal();
+    document.getElementById("closeSelectionBtn").onclick = () => selectionDialog.close();
+    selectionDialog.addEventListener("click", e => {
+      if (e.target === selectionDialog) selectionDialog.close();
+    });
+
+    document.getElementById("clearAllBtn").onclick = () => {
+      selection = {};
+      persistAndSync(null);
+    };
+
+    document.getElementById("drawerCopyBtn").onclick = copySelectionToClipboard;
+    document.getElementById("floatCopyBtn").onclick = copySelectionToClipboard;
+
+    window.addEventListener("keydown", e => {
+      if (!detailsDialog.open) return;
+      if (e.key === "ArrowLeft") stepDetailsItem(-1);
+      if (e.key === "ArrowRight") stepDetailsItem(1);
+    });
+
+    // Initialize Catalog
+    renderBrands();
+    renderGrid();
+    updateSelectionSummaries();
+  </script>
+</body>
+</html>
